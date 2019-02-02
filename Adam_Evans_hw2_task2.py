@@ -2,17 +2,10 @@ import numpy as np
 import math as m
 import matplotlib.pyplot as plt
 """
-Make sure you make this module as modular as you can.
-That is add as many functions as you can.
-1) Have a main function
-2) A function to capture user input, this could be inside your "main" function
-3) A function to calculate the projectile motion
-4) A function to display the graph
-
-Make sure you use docstring to document your module and all
-your functions.
-
-Make sure your python module works in dual-mode: by itself or import to other module
+Adam Evans hw2 task2
+this program calulates and displys the projectile motion of an object.
+if run as main it will ask you for the inital location and velocity the object 
+it will then use this to calculate the projectile motion of the object
 """
 # NOTE: You may need to run: $ pip install matplotlib
 
@@ -104,7 +97,7 @@ def getInitialVelocity(corrd):
     Param 1:
     the value you are looking for X or Y 
     """
-     # keep asking untill you get a valid answer. 
+    # keep asking untill you get a valid answer. 
     error = True
     while(error):
         # try catch to see if it is a valed number. 
@@ -124,18 +117,19 @@ def main():
     this askes for input then assings input. 
     this only runs if __name__ == "__main__". 
     """
+    # initial x location  
     initialX = 1.0
     initialX = getInitialLocation("X")
-        
+    # initial y location     
     initialY = 0.0
     initialY = getInitialLocation("Y")
-
+    # initial x velocity
     initialXSpeed = 70.0  
     initialXSpeed = getInitialVelocity("X")     
-
+    # initial y velocity
     initialYSpeed = 80.0   
     initialYSpeed = getInitialVelocity("Y")         
-    
+    # distance between each sample in time. 
     delt = 0.1
 
     plot_data(initialX,initialXSpeed,initialY,initialYSpeed,delt)
