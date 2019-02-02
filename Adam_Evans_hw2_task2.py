@@ -17,43 +17,133 @@ Make sure your python module works in dual-mode: by itself or import to other mo
 # NOTE: You may need to run: $ pip install matplotlib
 
 # Function to calculate projectile motion
-def px(x,v,t,a):
-    return x + v*t + 0.5*a*t**2
+def calc_projectile(location,velocity,time,acceleration):
+    """
+    Function to calculate projectile motion in one dimension. 
+
+    Param 1:
+    initial location of the object
+    Param 2:
+    initial velocity of the object in the direction of the dimension 
+    Param 3:
+    total time from when the object was at the initial location. 
+    Param 4:
+    the acceleration of the object in the direction of the dimension 
+    """
+    return location + velocity*time + 0.5*acceleration*time**2
 
 # Function to plot data
-def plot_data():
-    pass
+def plot_data(initialX,initialXSpeed,initialY,initialYSpeed,delt):
+    """
+    Function to store all calulated data and plot data.
+
+    Param 1:
+    initial x-axis location of the object
+    Param 2:
+    initial velocity of the object in the direction of the x-axis
+    Param 3:
+    initial y-axis location of the object
+    Param 4:
+    initial velocity of the object in the direction of the y-axis
+    Param 5:
+    the incraments of time to plot the data by. 
+    """
+    # not friction added 
+    accelerationOfX = 0.0
+    # define a constant of g 
+    accelerationOfY = -9.8           
+
+    # inisilize base data 
+    time = 0.0
+    x = []
+    y = []
+    interval = 170
+
+    # loop over data to calulate x,y pairs to plot. 
+    for i in range(interval):
+        x.append(calc_projectile(initialX,initialXSpeed,time,accelerationOfX))
+        y.append(calc_projectile(initialY,initialYSpeed,time,accelerationOfY))
+        time = time + delt
+
+        # when y goes negitive set t to get y to 0 then set that to the data point and break. 
+        if y[i] < 0.0:
+            # use quadtric formula to set y to as close to zero as possible. 
+            timeToGroud = (initialYSpeed + m.sqrt(initialYSpeed**2 + (-2*accelerationOfY*initialY)))/(-accelerationOfY)
+            x[i] = calc_projectile(initialX,initialXSpeed,timeToGroud,accelerationOfX)
+            y[i] = calc_projectile(initialY,initialYSpeed,timeToGroud,accelerationOfY)
+            break
+
+
+    plt.plot(x, y)
+    plt.show()
+
+def getInitialLocation(corrd):
+    """
+    Function to get the input for the initial x and y values. 
+
+    Param 1:
+    the value you are looking for X or Y 
+    """
+    # keep asking untill you get a valid answer. 
+    error = True
+    while(error):
+        # try catch to see if it is a valed number. 
+        try:
+            initialL = float(input("Please enter number for the initial "+ corrd +" coordinate: "))
+            error = False
+        except:
+            print("That is not a number. Please enter a number.")
+            error = True
+    
+    return initialL
+
+def getInitialVelocity(corrd):
+    """
+    Function to get the input for the initial x and y velocity. 
+
+    Param 1:
+    the value you are looking for X or Y 
+    """
+     # keep asking untill you get a valid answer. 
+    error = True
+    while(error):
+        # try catch to see if it is a valed number. 
+        try:
+            initialV = float(input("Please enter the initial velocity for the "+ corrd +" coordinate: "))
+            error = False
+        except:
+            print("That is not a number. Please enter a number.")
+            error = True
+    
+    return initialV
 
 # "Main" Function
 def main():
-    pass
+    """
+    Function to test and run all other functions. 
+    this askes for input then assings input. 
+    this only runs if __name__ == "__main__". 
+    """
+    initialX = 1.0
+    initialX = getInitialLocation("X")
+        
+    initialY = 0.0
+    initialY = getInitialLocation("Y")
+
+    initialXSpeed = 70.0  
+    initialXSpeed = getInitialVelocity("X")     
+
+    initialYSpeed = 80.0   
+    initialYSpeed = getInitialVelocity("Y")         
+    
+    delt = 0.1
+
+    plot_data(initialX,initialXSpeed,initialY,initialYSpeed,delt)
 
 
-x0 = 1.0
-vx_0 = 70.0         # TODO: capture input
-
-y0 = 0.0
-vy0 = 80.0          # TODO: capture input
-
-ax = 0.0
-ay = -9.8           # define a constant
-
-delt = 0.1
-t = 0.0
-
-x = []
-y = []
-
-intervals = 170
-
-for i in range(interval):
-    x.append(px(x0,vx0,t,ax))
-    y.append(px(y0,vy0,t,ay))
-    t = t + delt
-
-    if y[i + 1] > 0.0:
-       break
+if __name__ == "__main__":
+    main()
+    exit(0)
 
 
-plt.plot(x, y)
-plt.show()
+
